@@ -12,7 +12,14 @@ const PropertySchema = new mongoose.Schema(
       enum: ["HOTEL", "RESORT", "VILLA", "HOSTEL", "OTHER"],
       default: "HOTEL",
     },
-    description: { type: String },
+    unitType: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    description: { type: String, maxlength: 1500 },
+    reviews: { type: String, maxlength: 1500 },
     rating: { type: Number, min: 1, max: 5 },
     city: { type: String, required: [true, "City is required"], trim: true },
     state: { type: String, required: true, trim: true },
@@ -21,11 +28,14 @@ const PropertySchema = new mongoose.Schema(
       required: [true, "Country is required"],
       trim: true,
     },
-    phone: { type: Number },
-    email: {
-      type: String,
-      lowercase: true,
-    },
+    phone: [{ type: String, trim: true }],
+    email: [
+      {
+        type: String,
+        lowercase: true,
+        trim: true,
+      },
+    ],
     price: {
       type: Number,
       required: [true, "Price is required"],
@@ -40,5 +50,5 @@ const PropertySchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-const Property = mongoose.model("Property",PropertySchema);
+const Property = mongoose.model("Property", PropertySchema);
 export default Property;
